@@ -1,0 +1,11 @@
+name: mock_byte_stream
+description: Mocks a dart byte stream. Useful for simulating a network connection in unit tests.
+version: 1.0.0
+homepage: https://github.com/mgenware/mock_byte_stream
+
+environment:
+  sdk: ">=2.13.0 <3.0.0"
+
+dev_dependencies:
+  mgenware_dart_lints: ^1.0.0
+  test: ^1.16.0
