@@ -1,7 +1,7 @@
 [![pub package](https://img.shields.io/pub/v/mock_byte_stream.svg)](https://pub.dev/packages/mock_byte_stream)
 [![Build Status](https://github.com/mgenware/mock_byte_stream/workflows/Build/badge.svg)](https://github.com/mgenware/mock_byte_stream/actions)
 
-Mocks a dart byte stream. Useful for simulate a network connection in unit tests.
+Mocks a dart byte stream. Useful for simulating a network connection in unit tests.
 
 ## Features
 
@@ -37,5 +37,4 @@ void main() async {
     print(ascii.decode(data));
   }
 }
-
 ```
