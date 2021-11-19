@@ -42,6 +42,16 @@ Future<List<int>> toList(Stream<List<int>> stream) async {
   return list;
 }
 
+Future<List<int>> toListMuted(Stream<List<int>> stream) async {
+  List<int> list = [];
+  try {
+    await for (var bytes in stream) {
+      list.addAll(bytes);
+    }
+  } catch (_) {}
+  return list;
+}
+
 void main() {
   test('Defaults', () async {
     var mbs = MockByteStream(bytes, 4);
@@ -79,5 +89,33 @@ void main() {
     var mbs = MockByteStream(bytes, 100,
         maxDelay: Duration(milliseconds: 50), hasError: true);
     expect(toList(mbs.stream()), throwsException);
+  });
+
+  test('ErrorPosition.start', () async {
+    var mbs = MockByteStream(bytes, 100,
+        maxDelay: Duration(milliseconds: 50),
+        hasError: true,
+        errorPosition: ErrorPosition.start);
+    var list = await toListMuted(mbs.stream());
+    expect(list.isEmpty, true);
+  });
+
+  test('ErrorPosition.middle', () async {
+    var mbs = MockByteStream(bytes, 100,
+        maxDelay: Duration(milliseconds: 50),
+        hasError: true,
+        errorPosition: ErrorPosition.middle);
+    var list = await toListMuted(mbs.stream());
+    expect(list.isNotEmpty, true);
+    expect(list.length != bytes.length, true);
+  });
+
+  test('ErrorPosition.end', () async {
+    var mbs = MockByteStream(bytes, 100,
+        maxDelay: Duration(milliseconds: 50),
+        hasError: true,
+        errorPosition: ErrorPosition.end);
+    var list = await toListMuted(mbs.stream());
+    expect(list.length, bytes.length);
   });
 }
